@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use Illuminate\Http\Request;
+use App\Http\Requests\Categories\CreateCategoryRequest;
+use App\Http\Requests\Categories\EditCategoryRequest;
+
 
 class CategoriesController extends Controller
 {
@@ -15,6 +18,8 @@ class CategoriesController extends Controller
     public function index()
     {
         //
+        $categories=Category::all();
+        return view('categories.index', compact(['categories']));
     }
 
     /**
@@ -24,7 +29,7 @@ class CategoriesController extends Controller
      */
     public function create()
     {
-        //
+        return view('categories.create');
     }
 
     /**
@@ -33,9 +38,15 @@ class CategoriesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateCategoryRequest $request)
     {
         //
+        Category::create([
+            'name'=>$request->name
+        ]);
+
+        session()->flash('success', 'Category Added successfully!');
+        return redirect(route('categories.index'));
     }
 
     /**
@@ -58,6 +69,9 @@ class CategoriesController extends Controller
     public function edit(Category $category)
     {
         //
+        return view('categories.edit', compact([
+            'category'
+        ]));
     }
 
     /**
@@ -67,9 +81,12 @@ class CategoriesController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(EditCategoryRequest $request, Category $category)
     {
         //
+        $category->name=$request->name;
+        $category->save();
+        return redirect(route('categories.index'));
     }
 
     /**
@@ -81,5 +98,8 @@ class CategoriesController extends Controller
     public function destroy(Category $category)
     {
         //
+        $category->delete();
+        session()->flash('success', "Category Deleted Successfully!");
+        return redirect(route('categories.index'));
     }
 }

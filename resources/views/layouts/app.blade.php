@@ -9,8 +9,7 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -76,28 +75,32 @@
 
             @auth
                 <div class="container">
+                    @include('layouts._message')
                     <div class="row">
                         <div class="col-md-3">
                             <ul class="list-group">
                                 <li class="list-group-item">
-                                    <a href="">Categories</a>
+                                    <a href="{{ route('categories.index') }}">Categories</a>
                                 </li>
                                 <li class="list-group-item">
-                                    <a href="">Posts</a>
+                                    <a href="{{ route('posts.index') }}">Posts</a>
                                 </li>
                             </ul>
                         </div>
                         <div class="col-md-9">
-                            @yield('content')
+                            @yield('main-content')
                         </div>
                         
                     </div>
                     
                 </div>
             @else
-                @yield('content')
+                @yield('main-content')
             @endauth
         </main>
     </div>
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}" defer></script>
+    @yield('page-level-scripts');
 </body>
 </html>

@@ -12,13 +12,13 @@
 			Posts
 		</div>
 		<div class="card-body">
+			@if($posts->count()>0)
 			<table class="table table-bordered">
 				
 				<thead>
 					<th>Image</th>
 					<th>Title</th>
 					<th>Excerpt</th>
-					<th>Category</th>
 					<th>Actions</th>
 				</thead>
 				<tbody>
@@ -33,10 +33,7 @@
 							{{ $post->excerpt }}
 						</td>
 						<td>
-							{{$post->category->name}}
-						</td>
-						<td>
-							<a href="{{ route('posts.edit', $post->id) }}" class="btn btn-primary btn-sm">Edit</a>
+							<form action="{{route('posts.restore', $post->id)}}"></form>
 							<a href="#" class="btn btn-danger btn-sm"
 							onclick="displayModalForm({{ $post }})"
 							data-toggle="modal"
@@ -47,6 +44,9 @@
 				@endforeach
 			</tbody>
 			</table>
+			@else
+			<h5>No Posts Available</h5>
+			@endif
 		</div>
 	</div>
 	<!-- Delete Modal -->
@@ -64,11 +64,11 @@
             @csrf
              @method("DELETE")
             <div class="modal-body">
-                <p>Are You Sure Want To Delete Category</p>
+                <p>Are You Sure Want To Delete Post</p>
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Trash</button>
+            <button type="submit" class="btn btn-primary">Delete Post</button>
             </div>
         </form>
       </div>
@@ -81,7 +81,7 @@
 @section('page-level-scripts')
 	<script type="text/javascript">
 		function displayModalForm($post) {
-			$("#deleteForm").attr('action', 'trash/' + $post.id);
+			$("#deleteForm").attr('action', '/posts/' + $post.id);
 		}
 	</script>
 @endsection

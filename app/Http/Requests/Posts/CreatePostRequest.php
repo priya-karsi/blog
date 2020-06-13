@@ -28,7 +28,8 @@ class CreatePostRequest extends FormRequest
             'title'=>'required|unique:posts',
             'excerpt'=>'required|max:255',
             'content'=>'required',
-            'image'=>'required|image|mimes:jpeg,png,gif,svg,jpg|max:1024'
+            'image'=>'required|image|mimes:jpeg,png,gif,svg,jpg|max:1024',
+            'category_id'=>'required'
 
         ];
     }

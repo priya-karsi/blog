@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use Illuminate\Http\Request;
 use App\Http\Requests\Categories\CreateCategoryRequest;
-use App\Http\Requests\Categories\EditCategoryRequest;
+use App\Http\Requests\Categories\UpdateCategoryRequest;
 
 
 class CategoriesController extends Controller
@@ -81,7 +81,7 @@ class CategoriesController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(EditCategoryRequest $request, Category $category)
+    public function update(UpdateCategoryRequest $request, Category $category)
     {
         //
         $category->name=$request->name;

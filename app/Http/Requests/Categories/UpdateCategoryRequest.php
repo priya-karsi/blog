@@ -23,7 +23,7 @@ class UpdateCategoryRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        
             //Note $this is the request object and inside $this we will get the model object of the record being invoked
             //such syntax cnnot be used in create as $this->category wont exist!
 
@@ -32,8 +32,8 @@ class UpdateCategoryRequest extends FormRequest
             //but route has student object with it then u can access $this->student
 
             return [
-                'name'=>'required|unique:categories,name,'.$this->category->id
+                'name'=>'required|unique:categories,name,'.$this->category->id,
             ];
-        ];
+       
     }
 }

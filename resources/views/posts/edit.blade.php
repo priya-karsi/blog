@@ -3,18 +3,18 @@
 @section('main-content')
 
 	<div class="card">
-		<div class="card-header">Add Post
+		<div class="card-header">Edit Post
 			
 		</div>
 		<div class="card-body">
-			<form action="{{ route('posts.store') }}" method="POST"  enctype="multipart/form-data">
+			<form action="{{ route('posts.update', $post->id) }}" method="POST"  enctype="multipart/form-data">
 			@csrf
-
+			@method('PUT')
 			<div class="form-group">
 				<label for="title">Title</label>
 
 				<input type="text" 
-				value="{{ old('title') }}"
+				value="{{ old('title', $post->title) }}"
 				class="form-control @error('title') is-invalid @enderror"
 				name="title" id="name">				
 
@@ -29,11 +29,18 @@
 				<select name="category_id" class="form-group">
 					<option disabled checked>Select Category</option>
 					@foreach($categories as $category)
-				<option  
+					@if($category->id == old('category_id', $post->category_id))
+						<option value="$category_id"checked>
+							{{$category->name}}
+						</option>
+					@else
+						<option  
 				class="form-control @error('category_id') is-invalid @enderror"
 				value="{{$category->id}}">
 					{{$category->name}}
 				</option>
+					@endif
+				
 				@endforeach
 			</select>
 				@error('category_id')
@@ -41,8 +48,6 @@
 					{{ $message }}
 				</p>
 			@enderror
-			</div>
-			
 
 			<div class="form-group">
 				<label for="excerpt">Excerpt</label>
@@ -51,7 +56,7 @@
 				id="excerpt"
 				class="form-control @error('excerpt') is-invalid @enderror"
 				rows="4"
-				>{{ old('excerpt') }}</textarea>		
+				>{{ old('excerpt', $post->excerpt) }}</textarea>		
 
 			@error('excerpt')
 				<p class="form-group">
@@ -63,7 +68,7 @@
 
 			<div class="form-group">
 				<label for="content">Content</label>
-				<input  id="content" type="hidden" name="content">
+				<input  id="content" type="hidden" name="content" value="{{ old('content', $post->content)}}">
 				<trix-editor input="content"></trix-editor>
 			
 
@@ -77,8 +82,8 @@
 			<div class="form-group">
 				<label for="published_at">Published At</label>
 
-				<input type="date" 
-				value="{{ old('published_at') }}"
+				<input type="text" 
+				value="{{ old('published_at', $post->published_at) }}"
 				class="form-control @error('published_at') is-invalid @enderror"
 				name="published_at" id="published_at">				
 
@@ -92,8 +97,10 @@
 			<div class="form-group">
 				<label for="image">Image</label>
 
+				<div class="form-group">
+					<img src="{{asset('storage/'.$post->image)}}" width="100%">
+				</div>
 				<input type="file" 
-				value="{{ old('image') }}"
 				class="form-control @error('image') is-invalid @enderror"
 				name="image" id="image">				
 

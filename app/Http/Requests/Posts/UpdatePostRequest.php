@@ -28,7 +28,8 @@ class UpdatePostRequest extends FormRequest
             'title'=>'required|unique:posts,title,'.$this->post->id,
             'excerpt'=>'required|max:255',
             'content'=>'required',
-            'image'=>'required|image|mimes:jpeg,png,gif,svg,jpg|max:1024'
+            'image'=>'image|mimes:jpeg,png,gif,svg,jpg|max:1024',
+            'category_id'=>'required|exists:categories,id'
         ];
     }
 }

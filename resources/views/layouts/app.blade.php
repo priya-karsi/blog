@@ -17,6 +17,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @yield('page-level-styles');
 </head>
 <body>
     <div id="app">
@@ -84,6 +85,12 @@
                                 </li>
                                 <li class="list-group-item">
                                     <a href="{{ route('posts.index') }}">Posts</a>
+                                </li>
+                            </ul>
+
+                            <ul class="list-group mt-3">
+                                <li class="list-group-item">
+                                    <a href="{{ route('posts.trashed') }}">Trashed Posts</a>
                                 </li>
                             </ul>
                         </div>

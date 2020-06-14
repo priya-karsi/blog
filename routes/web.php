@@ -15,9 +15,10 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'WelcomeController@index')->name('blog.index');
+Route::get('blog/category/{category}', 'WelcomeController@category')->name('blog.category');
+Route::get('blog/tag/{tag}', 'WelcomeController@tag')->name('blog.tag');
+
 
 Auth::routes();
 
@@ -29,5 +30,10 @@ Route::resource('posts', 'PostsController');
 Route::delete('/trash/{post}', 'PostsController@trash')->name('posts.trash');
 Route::get('/trashed', 'PostsController@trashed')->name('posts.trashed');
 Route::put('/restore/{post}', 'PostsController@restore')->name('posts.restore');
+});
+
+Route::middleware(['auth','admin'])->group(function(){
+	Route::get('/users', 'UsersController@index')->name('users.index');
+	Route::put('users/{user}/make-admin', 'UsersController@makeAdmin')->name('users.make-admin');
 });
 

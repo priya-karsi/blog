@@ -19,6 +19,7 @@
 					<th>Title</th>
 					<th>Excerpt</th>
 					<th>Category</th>
+					<th>Author</th>
 					<th>Actions</th>
 				</thead>
 				<tbody>
@@ -34,6 +35,9 @@
 						</td>
 						<td>
 							{{$post->category->name}}
+						</td>
+						<td>
+							{{$post->author->name}}
 						</td>
 						<td>
 							<a href="{{ route('posts.edit', $post->id) }}" class="btn btn-primary btn-sm">Edit</a>

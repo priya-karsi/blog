@@ -54,7 +54,10 @@
 					<option disabled checked>Select tags</option>
 					@foreach($tags as $tag)
 						<option  
-				value="{{$tag->id}}" {{ old('tags')? (in_array($tag->id, old('tags'))?'selected':''):($post->hasTag($tag->id)?'selected':'') }}
+				value="{{$tag->id}}" 
+				{{ old('tags')? 
+				(in_array($tag->id, old('tags'))?'selected':''):
+				($post->hasTag($tag->id)?'selected':'') }}
 
 				>
 					{{$tag->name}}

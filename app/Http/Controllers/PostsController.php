@@ -18,13 +18,20 @@ class PostsController extends Controller
      */
     public function __construct(){
         $this->middleware(['verifyCategoriesCount'])->only('create','store');
+        $this->middleware(['validateAuthor'])->only('edit','update','destroy','trash');
+
 
     }
 
     public function index()
     {
         //
-        $posts=Post::paginate(10);
+        if(!auth()->user()->isAdmin()){
+            $posts=Post::withoutTrashed()->where('user_id',auth()->id())->paginate(10);
+        }else{
+            $posts=Post::paginate(10);
+        }
+        
         return view('posts.index', compact([
             'posts'
         ]));
@@ -65,6 +72,7 @@ class PostsController extends Controller
 'excerpt'=>$request->excerpt,
 'content'=>$request->content,
 'image'=>$image,
+'user_id'=>auth()->id(),
 'published_at'=>$request->published_at
         ]);
 

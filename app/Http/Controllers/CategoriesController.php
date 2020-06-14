@@ -98,6 +98,10 @@ class CategoriesController extends Controller
     public function destroy(Category $category)
     {
         //
+        if($category->posts()->count()>=0){
+            session()->flash('error', "Category cannot be delete as iut is associated with some post!");
+        return redirect()->back();
+        }
         $category->delete();
         session()->flash('success', "Category Deleted Successfully!");
         return redirect(route('categories.index'));

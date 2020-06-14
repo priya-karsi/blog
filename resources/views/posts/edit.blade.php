@@ -49,6 +49,26 @@
 				</p>
 			@enderror
 
+			<div>
+				<select name="tags[]" class="form-group" multiple>
+					<option disabled checked>Select tags</option>
+					@foreach($tags as $tag)
+						<option  
+				value="{{$tag->id}}" {{ old('tags')? (in_array($tag->id, old('tags'))?'selected':''):($post->hasTag($tag->id)?'selected':'') }}
+
+				>
+					{{$tag->name}}
+				</option>
+					
+				
+				@endforeach
+			</select>
+				@error('tags[]')
+				<p class="form-group">
+					{{ $message }}
+				</p>
+			@enderror
+
 			<div class="form-group">
 				<label for="excerpt">Excerpt</label>
 
@@ -113,7 +133,7 @@
 				<div class="form-group">
 					<button 
 					class="form-group"
-					type="submit">Add Post</button>
+					type="submit">Update Post</button>
 				</div>
 
 				</form>		

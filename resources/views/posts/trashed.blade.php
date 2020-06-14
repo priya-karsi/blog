@@ -33,7 +33,14 @@
 							{{ $post->excerpt }}
 						</td>
 						<td>
-							<form action="{{route('posts.restore', $post->id)}}"></form>
+							
+								<form action="{{ route('posts.restore', $post->id) }}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <button class="btn btn-primary btn-sm">Restore</button>
+                                    </form>
+
+							
 							<a href="#" class="btn btn-danger btn-sm"
 							onclick="displayModalForm({{ $post }})"
 							data-toggle="modal"

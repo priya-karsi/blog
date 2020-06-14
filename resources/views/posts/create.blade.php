@@ -42,6 +42,23 @@
 				</p>
 			@enderror
 			</div>
+
+			<div>
+				<select name="tags[]" class="form-group" multiple>
+					<option disabled checked>Select Tags</option>
+					@foreach($tags as $tag)
+				<option  
+				value="{{$tag->id}}">
+					{{$tag->name}}
+				</option>
+				@endforeach
+			</select>
+				@error('tags[]')
+				<p class="form-group">
+					{{ $message }}
+				</p>
+			@enderror
+			</div>
 			
 
 			<div class="form-group">

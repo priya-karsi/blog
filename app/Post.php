@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
 {
+    use softDeletes;
     //
     protected $fillable = [
 'title',
@@ -15,17 +16,29 @@ class Post extends Model
 'excerpt',
 'content',
 'image',
-'published_at'
+'published_at',
+'user_id',
     ];
     public function category(){
     	return $this->belongsTo(Category::class);
     }
 
+    public function tags(){
+        return $this->belongsToMany(Tag::class)->withTimestamps();
+    }
+
+    public function author(){
+        return $this->belongsTo(User::class,'user_id');
+    }
 
     /*
 	helper functions!
     */
     public function deleteImage(){
     	Storage::delete($this->image);
+    }
+
+    public function hasTag($tag_id){
+        return in_array($tag_id, $this->tags->pluck('id')->toArray());
     }
 }

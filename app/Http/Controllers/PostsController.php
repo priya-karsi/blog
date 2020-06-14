@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Post;
+use App\Tag;
 use App\Category;
 use Illuminate\Http\Request;
 use App\Http\Requests\Posts\CreatePostRequest;
@@ -15,6 +16,11 @@ class PostsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct(){
+        $this->middleware(['verifyCategoriesCount'])->only('create','store');
+
+    }
+
     public function index()
     {
         //
@@ -32,8 +38,12 @@ class PostsController extends Controller
     public function create()
     {
         //
+        $tags=Tag::all();
         $categories=Category::all();
-        return view('posts.create', compact(['categories']));
+        return view('posts.create', compact([
+            'categories', 
+            'tags'
+        ]));
     }
 
     /**
@@ -49,7 +59,7 @@ class PostsController extends Controller
 
         //create post
         //dd($request->category_select);
-        Post::create([
+        $post=Post::create([
 'title'=>$request->title,
 'category_id'=>$request->category_id,
 'excerpt'=>$request->excerpt,
@@ -57,6 +67,8 @@ class PostsController extends Controller
 'image'=>$image,
 'published_at'=>$request->published_at
         ]);
+
+    $post->tags()->attach($request->tags);
 
     session()->flash('success', 'Post Created Successfully!');
 
@@ -84,10 +96,12 @@ class PostsController extends Controller
     {
         //$posts=Post::firstOrFail($post);
         $categories=Category::all();
+        $tags=Tag::all();
         //
         //return view('posts.edit')->withPost($post);
         return view('posts.edit',compact([
             'post', 
+            'tags',
             'categories'
         ]));
     }
@@ -109,6 +123,9 @@ class PostsController extends Controller
             $data['image']=$image;
         }
         $post->update($data);
+    
+            $post->tags()->sync($request->tags);
+        
         session()->flash('success','post updated succesfuly');
         return redirect(route('posts.index'));
     }
@@ -141,11 +158,13 @@ class PostsController extends Controller
         return view('posts.trashed')->with('posts', $trashed);
     }
 
+
+
     public function restore($id){
         $trashedPost = Post::onlyTrashed()->findOrFail($id);
         $trashedPost->restore();
         session()->flash('success','post restored');
-        return view(route('posts.index'));
+        return redirect(route('posts.index'));
     }
 
 }

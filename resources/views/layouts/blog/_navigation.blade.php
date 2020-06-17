@@ -13,8 +13,27 @@
         <div class="navbar-collapse collapse navbar-main-collapse">
             <ul class="nav navbar-nav">
                 <li>
-                    <a href="index.html" data-toggle="dropdown" class="dropdown-toggle color-light">Home </a>
+                    <a href="{{ route('blog.index') }}" class="color-light">Home </a>
                 </li>
+                @guest
+                <li>
+                    <a href="{{ route('login') }}" class="color-light">Login </a>
+                </li>
+                @endguest
+                @auth
+                <li>
+                    <a href="{{ route('home') }}" class="color-light">Dashboard </a>
+                </li>
+                <li>
+                    <a href="{{ route('logout') }}" class="color-light"
+                    onclick="event.preventDefault();
+                    document.getElementById('logout-form').submit();"
+                    >Logout </a>
+                </li>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                </form>
+                @endauth
             </ul>
 
         </div>

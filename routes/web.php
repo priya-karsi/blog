@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/', 'WelcomeController@index')->name('blog.index');
+
+Route::get('blog/{post}','WelcomeController@show')->name('blog.show');
 Route::get('blog/category/{category}', 'WelcomeController@category')->name('blog.category');
 Route::get('blog/tag/{tag}', 'WelcomeController@tag')->name('blog.tag');
 

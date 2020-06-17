@@ -42,4 +42,21 @@ class Post extends Model
     public function hasTag($tag_id){
         return in_array($tag_id, $this->tags->pluck('id')->toArray());
     }
+
+    /*
+    Query Scopes
+    */
+
+    public function scopePublished($query){
+        return $query->where('published_at','<=',now());
+    }
+
+    public function scopeSearch($query){
+        $search=request('search');
+        if($search){
+            return $query->where('title','like',"%$search%");
+        }
+        return $query;
+
+    }
 }

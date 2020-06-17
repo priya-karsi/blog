@@ -19,9 +19,9 @@
 
 @section('main-content')
 <div class="row">
-    @foreach($posts as $post)
+    @forelse($posts as $post)
                     <div class="col-md-4 align-items-stretch col-sm-6 col-xs-12 ">
-                        <h4 class="blog-title"><a href="#">{{ $post->title }}</a></h4>
+                        <h4 class="blog-title"><a href="{{ route('blog.show',$post->id) }}">{{ $post->title }}</a></h4>
                         <div class="blog-three-attrib">
                             <span class="icon-calendar"></span> {{ $post->published_at->diffForHumans() }} |
                             <span class=" icon-pencil"></span><a href="#"> {{ $post->author->name }} </a>
@@ -30,14 +30,16 @@
                         <p class="mt25">
                             {{ $post->excerpt }}
                         </p>
-                        <a href="#" class="button button-gray button-xs">Read More <i class="fa fa-long-arrow-right"></i></a>
+                        <a href="{{ route('blog.show',$post->id) }}" class="button button-gray button-xs">Read More <i class="fa fa-long-arrow-right"></i></a>
 
                     </div>
-        @endforeach
+                @empty
+                <p>Sorry, there are no posts available for this!</p>
+        @endforelse
 </div>
 
                 <!-- Blog Paging
                 ===================================== -->
-               {{  $posts->links()}}
+               {{  $posts->appends(['search'=>request('search')])->links()}}
 
 @endsection

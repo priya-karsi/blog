@@ -1,85 +1,52 @@
-<p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
+<p align="center"><b><h1>Blogging Website - PenIt</h1></b></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+---
 
-## About Laravel
+## About
+A Blogging Webiste with numerous features and a great UI to please your eyes as one reads through the blogs, and a great platform for a writer to showcase their blogs.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
+# For a User POV:
+- Register/Login and check the remember me so you dont have the troble to login again and again.
+- Write a Blog or read through the blogs posted by other authors.
+- Search your way to find what you are looking for.
+- Filter out the blogs based on Tags/Categories
+- Add a Category/Tag if you want.
+- Restricted access to your materials, (blogs, profile).
+- Schedule a blog to be posted in the future.
+- By mistakely Deleted something you didnt want to? Go to the trashed section to recover it.
+- Can comment on other's Post to give feedback and/or appreaciation.
+---
+# For a Developer POV:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Post
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Model ###
+- containes relationship methods: tags and categories which links them to have a many(Post):one(Category), many:many with tags and many:one with author(User)
+- containes helper methods: delete image - to delete the image stored in my storage folder for all the posts.
+- containes scope methods: scope published - used to extend a query function to filter the posts which should be published with current timestamp, scope search - to filter the posts based on the search query found.
 
-## Learning Laravel
+### Controller ###
+- A resourceful controller with standard functions of index, create, store, show, update,delete(SoftDelete) and destroy functionalities. 
+- Create will store the post image name in the database and store the image in storage/public/posts folder which has a symlink with the public/posts to access with a view.
+- Includes middleware authentication for validating the author whose post is being controlled to ensure that someone dosen't edit someone else's post.
+- Used attach, detach and sync methods for many:many relations.
+- Every show kind of function has paginate attached to it to paginate all the blogs nicely.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Views ###
+- Containes all views for resourceful routes...used trix writer for content create/edit field so as to provide all the tools for a true writer to write something beautiful.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Category
 
-## Laravel Sponsors
+### Model ###
+- relationship methods: one:many with Post
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+### Category ###
+again a resourceful controller with the same methods as mentioned in Posts Controller.
 
-### Premium Partners
+### Views ###
+Standard views of edit, create, etc views created by bootstrap.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
+## Tags
 
-### Community Sponsors
-
-<a href="https://op.gg"><img src="http://opgg-static.akamaized.net/icon/t.rectangle.png" width="150"></a>
-
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
-- [Appoly](https://www.appoly.co.uk)
-- [云软科技](http://www.yunruan.ltd/)
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Just the relation with post differs as compared to Category Section..
